@@ -3,6 +3,7 @@ package view;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+
 public class GadgetMasterViewTest {
 
 	public static void main(String[] args) {
@@ -24,8 +25,8 @@ public class GadgetMasterViewTest {
 			e1.printStackTrace();
 		}
 		
-		GadgetMasterView blubb = new GadgetMasterView();
-		blubb.setVisible(true);
+		GadgetMasterView window = new GadgetMasterView();
+		window.frame.setVisible(true);
 		
 	}
 

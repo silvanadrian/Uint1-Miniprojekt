@@ -1,137 +1,360 @@
 package view;
+import java.awt.EventQueue;
+
 
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import javax.swing.SwingConstants;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import javax.swing.JTextField;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JButton;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.border.BevelBorder;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JSplitPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.JLabel;
 
-public class GadgetMasterView extends JFrame{
+
+public class GadgetMasterView {
+
+	public JFrame frame; //evtl auf private setzen
 	private JTextField textField;
 	private JTable table;
-	private JTextField textField_1;
+	private JTextField txtSuche;
 	private JTable table_1;
-	
-	public GadgetMasterView(){
-		setTitle("Gadgothek");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+	private JTable table_2;
+	private JTextField textField_2;
+	private JTable table_3;
+	private JTextField textField_1;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GadgetMasterView window = new GadgetMasterView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public GadgetMasterView() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 852, 406);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("Gadget", null, panel, null);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{215, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 0;
-		gbc_textField.gridy = 0;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
-		JButton btnNewButton = new JButton("Gadget erfassen");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GadgetDetailNew newGadget = new GadgetDetailNew();
-				newGadget.setVisible(true);
-			}
-		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 0;
-		panel.add(btnNewButton, gbc_btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Gadget editieren");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 2;
-		gbc_btnNewButton_1.gridy = 0;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
-		
-		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridwidth = 3;
-		gbc_table.insets = new Insets(0, 0, 0, 5);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 0;
-		gbc_table.gridy = 1;
-		panel.add(table, gbc_table);
+		panel.add(tabbedPane);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Ausleihen & Rückgabe", null, panel_1, null);
+		tabbedPane.addTab("Gadgets", null, panel_1, null);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{231, 213, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_1.columnWidths = new int[]{0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
-		
-		JPanel panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 0;
-		panel_1.add(panel_2, gbc_panel_2);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0};
-		gbl_panel_2.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		panel_2.setLayout(gbl_panel_2);
-		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 0;
-		gbc_textField_1.gridy = 0;
-		panel_2.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
-		
-		table_1 = new JTable();
-		GridBagConstraints gbc_table_1 = new GridBagConstraints();
-		gbc_table_1.fill = GridBagConstraints.BOTH;
-		gbc_table_1.gridx = 0;
-		gbc_table_1.gridy = 1;
-		panel_2.add(table_1, gbc_table_1);
 		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 1;
+		gbc_panel_3.gridx = 0;
 		gbc_panel_3.gridy = 0;
 		panel_1.add(panel_3, gbc_panel_3);
+		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
 		
+		textField = new JTextField();
+		panel_3.add(textField);
+		textField.setColumns(10);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(10);
+		panel_3.add(horizontalStrut);
+		
+		JButton btnNewButton = new JButton("New button");
+		panel_3.add(btnNewButton);
+		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(10);
+		panel_3.add(horizontalStrut_1);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		panel_3.add(btnNewButton_1);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		panel_1.add(scrollPane, gbc_scrollPane);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane.setViewportView(table);
+		
+		JPanel panel_2 = new JPanel();
+		tabbedPane.addTab("Ausleihen & R\u00FCckgabe", null, panel_2, null);
+		GridBagLayout gbl_panel_2 = new GridBagLayout();
+		gbl_panel_2.columnWidths = new int[] {100, 0, 0};
+		gbl_panel_2.rowHeights = new int[] {0, 0, 0};
+		gbl_panel_2.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panel_2.setLayout(gbl_panel_2);
+		
+		JPanel panel_6 = new JPanel();
+		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
+		gbc_panel_6.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_6.fill = GridBagConstraints.BOTH;
+		gbc_panel_6.gridx = 0;
+		gbc_panel_6.gridy = 0;
+		panel_2.add(panel_6, gbc_panel_6);
+		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
+		
+		txtSuche = new JTextField();
+		txtSuche.setText("suche");
+		panel_6.add(txtSuche);
+		txtSuche.setColumns(10);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 1;
+		panel_2.add(scrollPane_1, gbc_scrollPane_1);
+		
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_1.setViewportView(table_1);
+		
+		JPanel panel_4 = new JPanel();
+		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+		gbc_panel_4.fill = GridBagConstraints.BOTH;
+		gbc_panel_4.gridx = 1;
+		gbc_panel_4.gridy = 1;
+		panel_2.add(panel_4, gbc_panel_4);
+		GridBagLayout gbl_panel_4 = new GridBagLayout();
+		gbl_panel_4.columnWidths = new int[]{0, 0};
+		gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_4.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_4.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_4.setLayout(gbl_panel_4);
+		
+		JPanel panel_5 = new JPanel();
+		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
+		gbc_panel_5.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_5.fill = GridBagConstraints.BOTH;
+		gbc_panel_5.gridx = 0;
+		gbc_panel_5.gridy = 0;
+		panel_4.add(panel_5, gbc_panel_5);
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel = new JLabel("Reservation (x von y)");
+		panel_5.add(lblNewLabel);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.gridx = 0;
+		gbc_scrollPane_2.gridy = 1;
+		panel_4.add(scrollPane_2, gbc_scrollPane_2);
+		
+		table_2 = new JTable();
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_2.setViewportView(table_2);
+		
+		JPanel panel_8 = new JPanel();
+		GridBagConstraints gbc_panel_8 = new GridBagConstraints();
+		gbc_panel_8.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_8.fill = GridBagConstraints.BOTH;
+		gbc_panel_8.gridx = 0;
+		gbc_panel_8.gridy = 2;
+		panel_4.add(panel_8, gbc_panel_8);
+		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.X_AXIS));
+		
+		JLabel lblNeue = new JLabel("Neue Reservation");
+		panel_8.add(lblNeue);
+		
+		JPanel panel_9 = new JPanel();
+		GridBagConstraints gbc_panel_9 = new GridBagConstraints();
+		gbc_panel_9.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_9.fill = GridBagConstraints.BOTH;
+		gbc_panel_9.gridx = 0;
+		gbc_panel_9.gridy = 3;
+		panel_4.add(panel_9, gbc_panel_9);
+		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.X_AXIS));
+		
+		JLabel lblId = new JLabel("Id");
+		panel_9.add(lblId);
+		
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		panel_9.add(horizontalStrut_2);
+		
+		textField_2 = new JTextField();
+		panel_9.add(textField_2);
+		textField_2.setColumns(10);
+		
+		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+		panel_9.add(horizontalStrut_3);
+		
+		JButton btnNewButton_2 = new JButton("Reservation");
+		panel_9.add(btnNewButton_2);
+		
+		JPanel panel_10 = new JPanel();
+		GridBagConstraints gbc_panel_10 = new GridBagConstraints();
+		gbc_panel_10.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_10.fill = GridBagConstraints.BOTH;
+		gbc_panel_10.gridx = 0;
+		gbc_panel_10.gridy = 4;
+		panel_4.add(panel_10, gbc_panel_10);
+		panel_10.setLayout(new BoxLayout(panel_10, BoxLayout.X_AXIS));
+		
+		JLabel lblKeineReservationMglich = new JLabel("Keine Reservation m\u00F6glich: blabal");
+		panel_10.add(lblKeineReservationMglich);
+		
+		JPanel panel_7 = new JPanel();
+		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
+		gbc_panel_7.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_7.fill = GridBagConstraints.BOTH;
+		gbc_panel_7.gridx = 0;
+		gbc_panel_7.gridy = 5;
+		panel_4.add(panel_7, gbc_panel_7);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
+		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		panel_7.add(verticalStrut);
+		
+		JPanel panel_11 = new JPanel();
+		GridBagConstraints gbc_panel_11 = new GridBagConstraints();
+		gbc_panel_11.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_11.fill = GridBagConstraints.BOTH;
+		gbc_panel_11.gridx = 0;
+		gbc_panel_11.gridy = 6;
+		panel_4.add(panel_11, gbc_panel_11);
+		panel_11.setLayout(new BoxLayout(panel_11, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel_1 = new JLabel("Ausleihen (x von y)");
+		panel_11.add(lblNewLabel_1);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
+		gbc_scrollPane_3.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_3.gridx = 0;
+		gbc_scrollPane_3.gridy = 7;
+		panel_4.add(scrollPane_3, gbc_scrollPane_3);
+		
+		table_3 = new JTable();
+		table_3.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_3.setViewportView(table_3);
+		
+		JPanel panel_13 = new JPanel();
+		GridBagConstraints gbc_panel_13 = new GridBagConstraints();
+		gbc_panel_13.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_13.fill = GridBagConstraints.BOTH;
+		gbc_panel_13.gridx = 0;
+		gbc_panel_13.gridy = 8;
+		panel_4.add(panel_13, gbc_panel_13);
+		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
+		
+		JLabel lblNeueAusleihe = new JLabel("Neue Ausleihe");
+		panel_13.add(lblNeueAusleihe);
+		
+		JPanel panel_14 = new JPanel();
+		GridBagConstraints gbc_panel_14 = new GridBagConstraints();
+		gbc_panel_14.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_14.fill = GridBagConstraints.BOTH;
+		gbc_panel_14.gridx = 0;
+		gbc_panel_14.gridy = 9;
+		panel_4.add(panel_14, gbc_panel_14);
+		panel_14.setLayout(new BoxLayout(panel_14, BoxLayout.X_AXIS));
+		
+		JLabel lblId_1 = new JLabel("Id");
+		panel_14.add(lblId_1);
+		
+		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
+		panel_14.add(horizontalStrut_4);
+		
+		textField_1 = new JTextField();
+		panel_14.add(textField_1);
+		textField_1.setColumns(10);
+		
+		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
+		panel_14.add(horizontalStrut_5);
+		
+		JButton btnNewButton_3 = new JButton("Ausleihen");
+		panel_14.add(btnNewButton_3);
+		
+		JPanel panel_15 = new JPanel();
+		GridBagConstraints gbc_panel_15 = new GridBagConstraints();
+		gbc_panel_15.fill = GridBagConstraints.BOTH;
+		gbc_panel_15.gridx = 0;
+		gbc_panel_15.gridy = 10;
+		panel_4.add(panel_15, gbc_panel_15);
+		panel_15.setLayout(new BoxLayout(panel_15, BoxLayout.X_AXIS));
+		
+		JLabel lblKeineAusleiheMglich = new JLabel("Keine Ausleihe m\u00F6glich: Blabla");
+		panel_15.add(lblKeineAusleiheMglich);
 	}
 
 }
