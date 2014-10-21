@@ -27,6 +27,8 @@ import java.awt.Color;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class GadgetMasterView {
@@ -40,6 +42,8 @@ public class GadgetMasterView {
 	private JTextField textField_2;
 	private JTable table_3;
 	private JTextField textField_1;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -105,13 +109,42 @@ public class GadgetMasterView {
 		Component horizontalStrut = Box.createHorizontalStrut(10);
 		panel_3.add(horizontalStrut);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Gadget erfassen");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Gadget new aufrufen
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GadgetDetailNew gdn = new GadgetDetailNew(new bl.Gadget());
+							gdn.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		panel_3.add(btnNewButton);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(10);
 		panel_3.add(horizontalStrut_1);
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("Gadget editieren");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GadgetDetailEdit gde = new GadgetDetailEdit();
+							gde.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		panel_3.add(btnNewButton_1);
 		
 		JScrollPane scrollPane = new JScrollPane();

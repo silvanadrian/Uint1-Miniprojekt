@@ -18,6 +18,10 @@ public class Gadget implements Dto<Gadget> {
 		inventoryNumber = ""+Math.abs(UUID.randomUUID().getMostSignificantBits());
 		condition = Condition.NEW;
 	}
+	
+	public Gadget() {
+		this("neues Gadget");
+	}
 
  
 	public Condition getCondition() {

@@ -3,16 +3,23 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.BoxLayout;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+import java.awt.Window.Type;
+import java.awt.Dialog.ModalityType;
+
 //Muss am Ende noch abstract gemacht werden.
-public class GadgetDetail extends JFrame {
+public class GadgetDetail extends JDialog {
 
 	private JPanel contentPane;
 	protected JTextField textFieldName;
@@ -26,7 +33,9 @@ public class GadgetDetail extends JFrame {
 	protected JButton btnAkzeptieren;
 
 	public GadgetDetail() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setType(Type.POPUP);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -176,6 +185,14 @@ public class GadgetDetail extends JFrame {
 		
 		btnAkzeptieren = new JButton("New button");
 		panelButtons.add(btnAkzeptieren);
+		
+		
+		
+		pack();
+		setMinimumSize(getSize());
+		Dimension d = getSize();
+		d.width += 100;
+		setSize(d);
 	}
 
 }
