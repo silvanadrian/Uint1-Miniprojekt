@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.stream.Collectors;
 import dl.LibraryData;
 
-public class Library {
+public class Library extends Observable{
 	
 	
 	private LibraryData data;

@@ -2,33 +2,59 @@ package view;
 import java.awt.EventQueue;
 
 
+
+
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
+
 import java.awt.GridLayout;
 import java.awt.Insets;
+
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.Component;
+
 import javax.swing.Box;
 import javax.swing.border.BevelBorder;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JSplitPane;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JLabel;
+
+import dl.CrudListener;
+import dl.LibraryData;
+import dl.LocalLibrary;
+import bl.Customer;
+import bl.Gadget;
+import bl.Library;
+import bl.Loan;
+import bl.Reservation;
+import model.GadgetTableModel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 
 public class GadgetMasterView {
@@ -42,8 +68,7 @@ public class GadgetMasterView {
 	private JTextField textField_2;
 	private JTable table_3;
 	private JTextField textField_1;
-	
-	
+	private Library library = new Library(new LocalLibrary());
 
 	/**
 	 * Launch the application.
@@ -156,13 +181,26 @@ public class GadgetMasterView {
 		panel_1.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		{
+			GadgetTableModel gtm = new GadgetTableModel();
+			library.addObserver(gtm);
+			table.setModel(gtm);
+			library.notifyObservers();
+			table.repaint();
+			
+		}
+		
+		
+				
+				
+		/*
+		new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column", "New column"
+				"Test", "New column", "New column", "New column", "New column", "New column", "New column"
 			}
-		));
+		));*/
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_2 = new JPanel();
@@ -198,7 +236,11 @@ public class GadgetMasterView {
 		panel_2.add(scrollPane_1, gbc_scrollPane_1);
 		
 		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
+		table_1.setModel(
+				
+				
+				
+		new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
@@ -286,6 +328,9 @@ public class GadgetMasterView {
 		
 		JButton btnNewButton_2 = new JButton("Reservation");
 		panel_9.add(btnNewButton_2);
+		
+		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
+		panel_9.add(horizontalStrut_6);
 		
 		JPanel panel_10 = new JPanel();
 		GridBagConstraints gbc_panel_10 = new GridBagConstraints();
@@ -377,6 +422,9 @@ public class GadgetMasterView {
 		
 		JButton btnNewButton_3 = new JButton("Ausleihen");
 		panel_14.add(btnNewButton_3);
+		
+		Component horizontalStrut_7 = Box.createHorizontalStrut(20);
+		panel_14.add(horizontalStrut_7);
 		
 		JPanel panel_15 = new JPanel();
 		GridBagConstraints gbc_panel_15 = new GridBagConstraints();
