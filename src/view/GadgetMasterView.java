@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -42,6 +43,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JLabel;
 
+import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
 import dl.LocalLibrary;
@@ -141,7 +143,7 @@ public class GadgetMasterView {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							GadgetDetailNew gdn = new GadgetDetailNew(new bl.Gadget());
+							GadgetDetailNew gdn = new GadgetDetailNew(new bl.Gadget(), new ToDoSaveGadget(library));
 							gdn.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -185,8 +187,8 @@ public class GadgetMasterView {
 			GadgetTableModel gtm = new GadgetTableModel();
 			library.addObserver(gtm);
 			table.setModel(gtm);
-			library.notifyObservers();
-			table.repaint();
+			gtm.update(library, null);
+			//table.repaint();
 			
 		}
 		

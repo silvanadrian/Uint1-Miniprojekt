@@ -90,6 +90,8 @@ public class Library extends Observable{
 	
 	public void addGadget(Gadget gadget) {		
 		data.addGadget(gadget);
+		setChanged();
+		notifyObservers(this);
 	}
 
 	public void updateGadget(Gadget gadget) {

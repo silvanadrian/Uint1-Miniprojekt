@@ -15,10 +15,9 @@ import bl.Loan;
 
 public class GadgetTableModel extends AbstractTableModel implements Observer {
 	
+
 	
-	/*public GadgetTableModel(Library library) {
-		update(library, null);
-	}*/
+	
 	String[] columnNames = {
 			"Id", 
 			"Name", 
@@ -75,7 +74,7 @@ public class GadgetTableModel extends AbstractTableModel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Library lib = (Library)arg0;
-		
+		values.clear();
 		for(Gadget g: lib.getGadgets()) {
 			//Loan loan = lib.getLoansFor(g, false);
 			values.add(new Object[]{
@@ -83,12 +82,13 @@ public class GadgetTableModel extends AbstractTableModel implements Observer {
 					g.getName(),
 					g.getManufacturer(),
 					g.getPrice(),
-					g.getCondition()
+					g.getCondition(),
+					null,
+					lib.getCustomer(lib.getReservatonFor(g, true))
 					//loan.getReturnDate(),
 					//loan.getReturnDate()
 			});
 		}
-		
+		fireTableDataChanged();
 	}
-
 }

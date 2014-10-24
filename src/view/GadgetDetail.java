@@ -18,14 +18,19 @@ import javax.swing.JTextField;
 import java.awt.Window.Type;
 import java.awt.Dialog.ModalityType;
 
+import javax.swing.JComboBox;
+
+import bl.Gadget;
+
 //Muss am Ende noch abstract gemacht werden.
 public class GadgetDetail extends JDialog {
 
 	private JPanel contentPane;
+	
 	protected JTextField textFieldName;
 	protected JTextField textFieldHersteller;
 	protected JTextField textFieldPreis;
-	protected JTextField textFieldZustand;
+	protected JComboBox comboBoxZustand;
 	
 	protected JLabel lblIdText;
 	
@@ -36,6 +41,7 @@ public class GadgetDetail extends JDialog {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setType(Type.POPUP);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -167,9 +173,8 @@ public class GadgetDetail extends JDialog {
 		contentPane.add(panelTextZustand, gbc_panelTextZustand);
 		panelTextZustand.setLayout(new BoxLayout(panelTextZustand, BoxLayout.X_AXIS));
 		
-		textFieldZustand = new JTextField();
-		panelTextZustand.add(textFieldZustand);
-		textFieldZustand.setColumns(10);
+		comboBoxZustand = new JComboBox(Gadget.Condition.values());
+		panelTextZustand.add(comboBoxZustand);
 		
 		JPanel panelButtons = new JPanel();
 		GridBagConstraints gbc_panelButtons = new GridBagConstraints();
