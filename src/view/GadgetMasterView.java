@@ -7,6 +7,10 @@ import java.awt.EventQueue;
 
 
 
+
+
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -27,6 +32,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import java.awt.Component;
 
@@ -52,11 +58,16 @@ import bl.Gadget;
 import bl.Library;
 import bl.Loan;
 import bl.Reservation;
+import model.CustomerTableModel;
 import model.GadgetTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+
+import junit.runner.Sorter;
 
 
 public class GadgetMasterView {
@@ -71,6 +82,8 @@ public class GadgetMasterView {
 	private JTable table_3;
 	private JTextField textField_1;
 	private Library library = new Library(new LocalLibrary());
+	
+	private TableRowSorter<GadgetTableModel> gadgetSorter;
 
 	/**
 	 * Launch the application.
@@ -100,6 +113,7 @@ public class GadgetMasterView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Gadget Biblio");
 		frame.setBounds(100, 100, 852, 406);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -129,7 +143,19 @@ public class GadgetMasterView {
 		panel_1.add(panel_3, gbc_panel_3);
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
 		
-		textField = new JTextField();
+		textField = new JTextField("suche");
+		textField.addInputMethodListener(new InputMethodListener() {
+			public void caretPositionChanged(InputMethodEvent event) {System.out.println("changed");}
+			
+			@Override
+			public void inputMethodTextChanged(InputMethodEvent arg0) {
+				
+				RowFilter<GadgetTableModel, Object> rf = null;
+			    rf = RowFilter.regexFilter(textField.getText());
+			    gadgetSorter.setRowFilter(rf);
+			    table.repaint();
+			}
+		});
 		panel_3.add(textField);
 		textField.setColumns(10);
 		
@@ -187,9 +213,10 @@ public class GadgetMasterView {
 			GadgetTableModel gtm = new GadgetTableModel();
 			library.addObserver(gtm);
 			table.setModel(gtm);
+			gadgetSorter = new TableRowSorter<GadgetTableModel>(gtm);
+			table.setRowSorter(gadgetSorter);
 			gtm.update(library, null);
-			//table.repaint();
-			
+			//table.setAutoCreateRowSorter(true);
 		}
 		
 		
@@ -238,25 +265,24 @@ public class GadgetMasterView {
 		panel_2.add(scrollPane_1, gbc_scrollPane_1);
 		
 		table_1 = new JTable();
-		table_1.setModel(
-				
-				
-				
-		new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
-			}
-		));
+		{
+			CustomerTableModel ctm = new CustomerTableModel();
+			library.addObserver(ctm);
+			table_1.setModel(ctm);
+			ctm.update(library, null);
+		}
 		scrollPane_1.setViewportView(table_1);
 		
+		JPanel panel_16 = new JPanel();
+		GridBagConstraints gbc_panel_16 = new GridBagConstraints();
+		gbc_panel_16.fill = GridBagConstraints.BOTH;
+		gbc_panel_16.gridx = 1;
+		gbc_panel_16.gridy = 1;
+		panel_2.add(panel_16, gbc_panel_16);
+		panel_16.setLayout(new BoxLayout(panel_16, BoxLayout.X_AXIS));
+		
 		JPanel panel_4 = new JPanel();
-		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-		gbc_panel_4.fill = GridBagConstraints.BOTH;
-		gbc_panel_4.gridx = 1;
-		gbc_panel_4.gridy = 1;
-		panel_2.add(panel_4, gbc_panel_4);
+		panel_16.add(panel_4);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{0, 0};
 		gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
