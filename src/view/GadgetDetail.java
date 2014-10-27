@@ -186,6 +186,7 @@ public class GadgetDetail extends JDialog {
 		contentPane.add(panelButtons, gbc_panelButtons);
 		
 		btnAbbruch = new JButton("Abbruch");
+		
 		panelButtons.add(btnAbbruch);
 		
 		btnAkzeptieren = new JButton("New button");
