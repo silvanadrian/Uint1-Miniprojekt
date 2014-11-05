@@ -95,7 +95,9 @@ public class Library extends Observable{
 	}
 
 	public void updateGadget(Gadget gadget) {
-		data.updateGadget(gadget);		
+		data.updateGadget(gadget);	
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	public void updateLoan(Loan loan) {
@@ -166,6 +168,9 @@ public class Library extends Observable{
 		{
 			data.addReservation(new Reservation(customer, gadget));
 		}
+		
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	
@@ -173,4 +178,6 @@ public class Library extends Observable{
 	{		
 		return getReservatonFor(gadget, customer, true) == null;
 	}	
+	
+	
 }

@@ -14,8 +14,8 @@ import bl.Library;
 import bl.Loan;
 import bl.Reservation;
 
+@SuppressWarnings("serial")
 public class CustomerTableModel extends AbstractTableModel implements Observer {
-	
 	
 	String[] columnNames = {
 			"KundenID", 
@@ -30,7 +30,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 			String.class,
 			String.class,
 			String.class,
-			JCheckBox.class
+			Boolean.class
 	};
 	
 	ArrayList<Object[]> values = new ArrayList<>();
@@ -63,7 +63,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Library lib = (Library) arg0;
-		
+		boolean hatUeberfaellige = false;
 		
 		
 		for(Customer customer: lib.getCustomers()) {
@@ -72,12 +72,19 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 				sbr.append(lib.getGadget(res.getGadgetId()).getName());
 				sbr.append(", ");
 			}
+			if(sbr.length() > 0) {
+				sbr.deleteCharAt(sbr.length()-2);
+				hatUeberfaellige = true;
+			}
+				
 			
 			StringBuilder sbl = new StringBuilder();
 			for(Loan l: lib.getLoansFor(customer, true)) {
 				sbl.append(lib.getGadget(l.getGadgetId()).getName());
 				sbl.append(", ");
 			}
+			if(sbl.length() > 0)
+				sbl.deleteCharAt(sbl.length()-2);
 			
 			
 			
@@ -86,7 +93,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 					customer.getName(),
 					sbr.toString(),
 					sbl.toString(),
-					null
+					hatUeberfaellige
 			});
 		}
 		

@@ -5,43 +5,43 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JTable;
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import bl.Customer;
 import bl.Gadget;
-import bl.Gadget.Condition;
 import bl.Library;
-import bl.Loan;
+import bl.Gadget.Condition;
+import bl.Reservation;
 
-public class GadgetTableModel extends AbstractTableModel implements Observer {
-
+public class ReservationTableModel extends AbstractTableModel implements Observer {
+	
+	private Customer customer;
+	
 	String[] columnNames = {
-			"Id", 
-			"Name", 
-			"Hersteller", 
-			"Preis", 
-			"Zustand", 
-			"Verfügbar ab", 
-			"Ausgeliehen an"
+			"Name",
+			"Warteschlange",
+			"Ausleihen",
+			"Löschen"
 	};
 	
-	@SuppressWarnings("rawtypes")
 	Class[] columnClass = {
-			Integer.class,
-			String.class,
 			String.class,
 			Integer.class,
-			Condition.class,
-			Date.class,
-			Customer.class
+			JButton.class,
+			JButton.class
 	};
 	
 	ArrayList<Object[]> values = new ArrayList<>();
+	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
 
-	
-	
-	
 	@Override
 	public int getColumnCount() {
 		return columnNames.length;
@@ -72,37 +72,33 @@ public class GadgetTableModel extends AbstractTableModel implements Observer {
 		// TODO Auto-generated method stub
 		super.setValueAt(aValue, rowIndex, columnIndex);
 	}
+	
+	
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		Library lib = (Library)arg0;
-		values.clear();
-		
-		
-		
-		for(Gadget g: lib.getGadgets()) {
-			//Alles Mist
-			Customer customer = null;
-			if(lib.getReservatonFor(g, true).size() > 0) {
-				customer = lib.getCustomer(lib.getReservatonFor(g, true).get(0).getCustomerId());
-			}
-			Date returnDate = null;
-			if(lib.getLoansFor(g, true).size() > 0) {
-				returnDate = lib.getLoansFor(g, true).get(0).getReturnDate();
+	public void update(Observable o, Object arg) {
+		if(customer != null) {
+			Library lib = (Library)o;
+			values.clear();
+			
+			
+			
+			for(Reservation res: lib.getReservatonFor(customer, true)) {
+				
+				Gadget g = lib.getGadget(res.getGadgetId());
+				
+				
+				values.add(new Object[]{
+					g.getName(),
+					lib.getReservatonFor(g, true).size(),
+					new JButton(),
+					null
+				});
 			}
 			
-			values.add(new Object[]{
-					g.getInventoryNumber(), 
-					g.getName(),
-					g.getManufacturer(),
-					g.getPrice(),
-					g.getCondition(),
-					returnDate,
-					customer
-					//loan.getReturnDate(),
-					//loan.getReturnDate()
-			});
 		}
 		fireTableDataChanged();
+	
 	}
+
 }

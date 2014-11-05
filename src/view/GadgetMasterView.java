@@ -1,16 +1,6 @@
 package view;
 import java.awt.EventQueue;
 
-
-
-
-
-
-
-
-
-
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.FlowLayout;
@@ -49,6 +40,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JLabel;
 
+import control.ToDoEditGadget;
 import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
@@ -60,6 +52,7 @@ import bl.Loan;
 import bl.Reservation;
 import model.CustomerTableModel;
 import model.GadgetTableModel;
+import model.ReservationTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -68,6 +61,11 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 
 import junit.runner.Sorter;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class GadgetMasterView {
@@ -84,10 +82,14 @@ public class GadgetMasterView {
 	private Library library = new Library(new LocalLibrary());
 	
 	private TableRowSorter<GadgetTableModel> gadgetSorter;
+	private TableRowSorter<CustomerTableModel> customerSorter;
+	private TableRowSorter<ReservationTableModel> reservationSorter;
+	
+	private ReservationTableModel rtm = new ReservationTableModel();
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -101,7 +103,7 @@ public class GadgetMasterView {
 		});
 	}
 
-	/**
+	
 	 * Create the application.
 	 */
 	public GadgetMasterView() {
@@ -143,19 +145,17 @@ public class GadgetMasterView {
 		panel_1.add(panel_3, gbc_panel_3);
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
 		
-		textField = new JTextField("suche");
-		textField.addInputMethodListener(new InputMethodListener() {
-			public void caretPositionChanged(InputMethodEvent event) {System.out.println("changed");}
-			
+		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void inputMethodTextChanged(InputMethodEvent arg0) {
-				
+			public void keyReleased(KeyEvent arg0) {
 				RowFilter<GadgetTableModel, Object> rf = null;
 			    rf = RowFilter.regexFilter(textField.getText());
 			    gadgetSorter.setRowFilter(rf);
 			    table.repaint();
 			}
 		});
+		
 		panel_3.add(textField);
 		textField.setColumns(10);
 		
@@ -189,7 +189,7 @@ public class GadgetMasterView {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							GadgetDetailEdit gde = new GadgetDetailEdit();
+							GadgetDetailEdit gde = new GadgetDetailEdit(library.getGadget((String)table.getValueAt(table.getSelectedRow(), 0)), new ToDoEditGadget(library) );
 							gde.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -218,18 +218,6 @@ public class GadgetMasterView {
 			gtm.update(library, null);
 			//table.setAutoCreateRowSorter(true);
 		}
-		
-		
-				
-				
-		/*
-		new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Test", "New column", "New column", "New column", "New column", "New column", "New column"
-			}
-		));*/
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_2 = new JPanel();
@@ -251,7 +239,15 @@ public class GadgetMasterView {
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		
 		txtSuche = new JTextField();
-		txtSuche.setText("suche");
+		txtSuche.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				RowFilter<CustomerTableModel, Object> rf = null;
+			    rf = RowFilter.regexFilter(txtSuche.getText());
+			    customerSorter.setRowFilter(rf);
+			    table.repaint();
+			}
+		});
 		panel_6.add(txtSuche);
 		txtSuche.setColumns(10);
 		
@@ -265,10 +261,21 @@ public class GadgetMasterView {
 		panel_2.add(scrollPane_1, gbc_scrollPane_1);
 		
 		table_1 = new JTable();
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rtm.setCustomer(library.getCustomer((String)table_1.getValueAt(table_1.getSelectedRow(), 0)));
+				
+				rtm.update(library, null);
+			}
+		});
+		
 		{
 			CustomerTableModel ctm = new CustomerTableModel();
 			library.addObserver(ctm);
 			table_1.setModel(ctm);
+			customerSorter = new TableRowSorter<CustomerTableModel>(ctm);
+			table_1.setRowSorter(customerSorter);
 			ctm.update(library, null);
 		}
 		scrollPane_1.setViewportView(table_1);
@@ -311,13 +318,14 @@ public class GadgetMasterView {
 		panel_4.add(scrollPane_2, gbc_scrollPane_2);
 		
 		table_2 = new JTable();
-		table_2.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column"
-			}
-		));
+		{
+			//table_2.getColumn("Ausleihen").setCellRenderer(); 
+			library.addObserver(rtm);
+			table_2.setModel(rtm);
+			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
+			table_2.setRowSorter(reservationSorter);
+			rtm.update(library, null);
+		}
 		scrollPane_2.setViewportView(table_2);
 		
 		JPanel panel_8 = new JPanel();
@@ -355,6 +363,11 @@ public class GadgetMasterView {
 		panel_9.add(horizontalStrut_3);
 		
 		JButton btnNewButton_2 = new JButton("Reservation");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				library.addReservation(library.getGadget(textField_2.getText()), rtm.getCustomer());
+			}
+		});
 		panel_9.add(btnNewButton_2);
 		
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
@@ -464,6 +477,10 @@ public class GadgetMasterView {
 		
 		JLabel lblKeineAusleiheMglich = new JLabel("Keine Ausleihe m\u00F6glich: Blabla");
 		panel_15.add(lblKeineAusleiheMglich);
+		
+		
+		frame.setMinimumSize(new Dimension(800, 400));
+		frame.setSize(new Dimension(1200, 500));
 	}
 
 }
