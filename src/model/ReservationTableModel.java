@@ -28,8 +28,8 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 	Class[] columnClass = {
 			String.class,
 			Integer.class,
-			JButton.class,
-			JButton.class
+			String.class,
+			String.class
 	};
 	
 	ArrayList<Object[]> values = new ArrayList<>();
@@ -91,8 +91,8 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 				values.add(new Object[]{
 					g.getName(),
 					lib.getReservatonFor(g, true).size(),
-					new JButton(),
-					null
+					lib.getLoansFor(g, true).size() > 0 ? "Nein" : "Ja",
+					"Löschen"
 				});
 			}
 			

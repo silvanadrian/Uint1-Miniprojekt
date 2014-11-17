@@ -40,6 +40,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JLabel;
 
+import renderer.ButtonRenderer;
 import control.ToDoEditGadget;
 import control.ToDoSaveGadget;
 import dl.CrudListener;
@@ -322,6 +323,8 @@ public class GadgetMasterView {
 			//table_2.getColumn("Ausleihen").setCellRenderer(); 
 			library.addObserver(rtm);
 			table_2.setModel(rtm);
+			table_2.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+			table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
 			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
 			table_2.setRowSorter(reservationSorter);
 			rtm.update(library, null);
