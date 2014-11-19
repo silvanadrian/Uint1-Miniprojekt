@@ -1,5 +1,8 @@
 package view;
+
+
 import java.awt.EventQueue;
+
 
 
 import javax.swing.JFrame;
@@ -54,6 +57,7 @@ import bl.Loan;
 import bl.Reservation;
 import model.CustomerTableModel;
 import model.GadgetTableModel;
+import model.LoanTableModel;
 import model.ReservationTableModel;
 
 import java.awt.event.ActionListener;
@@ -86,8 +90,10 @@ public class GadgetMasterView {
 	private TableRowSorter<GadgetTableModel> gadgetSorter;
 	private TableRowSorter<CustomerTableModel> customerSorter;
 	private TableRowSorter<ReservationTableModel> reservationSorter;
+	private TableRowSorter<LoanTableModel> loanSorter;
 	
 	private ReservationTableModel rtm = new ReservationTableModel();
+	private LoanTableModel ltm = new LoanTableModel();
 
 	/**
 	 * Launch the application.
@@ -267,8 +273,9 @@ public class GadgetMasterView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				rtm.setCustomer(library.getCustomer((String)table_1.getValueAt(table_1.getSelectedRow(), 0)));
-				
+				ltm.setCustomer(library.getCustomer((String)table_1.getValueAt(table_1.getSelectedRow(), 0)));
 				rtm.update(library, null);
+				ltm.update(library, null);
 			}
 		});
 		
@@ -327,7 +334,6 @@ public class GadgetMasterView {
 			table_2.setModel(rtm);
 			table_2.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
 			table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
-			table_2.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor());
 			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
 			table_2.setRowSorter(reservationSorter);
 			rtm.update(library, null);
@@ -424,13 +430,14 @@ public class GadgetMasterView {
 		panel_4.add(scrollPane_3, gbc_scrollPane_3);
 		
 		table_3 = new JTable();
-		table_3.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column"
-			}
-		));
+		{
+			library.addObserver(ltm);
+			table_3.setModel(ltm);
+			table_3.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+			loanSorter = new TableRowSorter<LoanTableModel>(ltm);
+			table_3.setRowSorter(loanSorter);
+			rtm.update(library, null);
+		}
 		scrollPane_3.setViewportView(table_3);
 		
 		JPanel panel_13 = new JPanel();
@@ -468,6 +475,12 @@ public class GadgetMasterView {
 		panel_14.add(horizontalStrut_5);
 		
 		JButton btnNewButton_3 = new JButton("Ausleihen");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				library.addLoan(library.getGadget(textField_1.getText()), rtm.getCustomer());
+				library.notifyObservers();
+			}
+		});
 		panel_14.add(btnNewButton_3);
 		
 		Component horizontalStrut_7 = Box.createHorizontalStrut(20);
@@ -484,9 +497,7 @@ public class GadgetMasterView {
 		JLabel lblKeineAusleiheMglich = new JLabel("Keine Ausleihe m\u00F6glich: Blabla");
 		panel_15.add(lblKeineAusleiheMglich);
 		
-		
 		frame.setMinimumSize(new Dimension(800, 400));
 		frame.setSize(new Dimension(1200, 500));
 	}
-
 }

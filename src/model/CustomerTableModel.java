@@ -63,6 +63,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Library lib = (Library) arg0;
+		values.clear();
 		boolean hatUeberfaellige = false;
 		
 		
@@ -96,6 +97,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 					hatUeberfaellige
 			});
 		}
+		fireTableDataChanged();
 		
 	}
 

@@ -37,6 +37,8 @@ public class Library extends Observable{
 				data.updateReservation(reservation);
 			}			
 		}
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	public List<Loan> getLoansFor(Gadget gadget, boolean onlyLent)
@@ -102,6 +104,8 @@ public class Library extends Observable{
 	
 	public void updateLoan(Loan loan) {
 		data.updateLoan(loan);		
+		setChanged();
+		notifyObservers(this);
 	}	
 
 	public void updateReservation(Reservation reservation) {
