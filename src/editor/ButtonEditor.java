@@ -3,30 +3,57 @@ package editor;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
+import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
-public class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+    JButton button;
+    String txt;
 
-	@Override
-	public Object getCellEditorValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public ButtonEditor() {
+        super();
+        button = new JButton();
+        button.setOpaque(true);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Buttontext: " + button.getText());
+            }
+        });
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Object getCellEditorValue() {
+        return null;
+    }
 
-	@Override
-	public Component getTableCellEditorComponent(JTable arg0, Object arg1,
-			boolean arg2, int arg3, int arg4) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public boolean isCellEditable(EventObject anEvent) {
+        return true;
+    }
 
-}
+    public boolean shouldSelectCell(EventObject anEvent) {
+        return false;
+    }
+
+    public boolean stopCellEditing() {
+        return super.stopCellEditing();
+    }
+
+    public void cancelCellEditing() {
+    }
+
+    public void addCellEditorListener(CellEditorListener l) {
+    }
+
+    public void removeCellEditorListener(CellEditorListener l) {
+    }
+
+    public Component getTableCellEditorComponent(JTable table, Object value,
+            boolean isSelected, int row, int column) {
+        txt = (value == null) ? "" : value.toString();
+        button.setText(txt);
+        return button;
+    }
+} 

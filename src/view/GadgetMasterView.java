@@ -1,6 +1,7 @@
 package view;
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -319,12 +320,14 @@ public class GadgetMasterView {
 		panel_4.add(scrollPane_2, gbc_scrollPane_2);
 		
 		table_2 = new JTable();
+		
 		{
 			//table_2.getColumn("Ausleihen").setCellRenderer(); 
 			library.addObserver(rtm);
 			table_2.setModel(rtm);
 			table_2.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
 			table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
+			table_2.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor());
 			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
 			table_2.setRowSorter(reservationSorter);
 			rtm.update(library, null);
