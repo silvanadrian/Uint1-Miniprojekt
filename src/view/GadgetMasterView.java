@@ -5,12 +5,17 @@ import java.awt.EventQueue;
 
 
 
+
+
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
 import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -27,6 +32,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import java.awt.Component;
@@ -50,6 +56,7 @@ import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
 import dl.LocalLibrary;
+import editor.ButtonEditor;
 import bl.Customer;
 import bl.Gadget;
 import bl.Library;
@@ -332,8 +339,13 @@ public class GadgetMasterView {
 			//table_2.getColumn("Ausleihen").setCellRenderer(); 
 			library.addObserver(rtm);
 			table_2.setModel(rtm);
+			table_2.setEditingColumn(3);
+			//table_2.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer());
+			//table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
 			table_2.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+			table_2.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
 			table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
+			table_2.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
 			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
 			table_2.setRowSorter(reservationSorter);
 			rtm.update(library, null);

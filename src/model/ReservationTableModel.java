@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
@@ -32,7 +34,10 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 			String.class
 	};
 	
+	
 	ArrayList<Object[]> values = new ArrayList<>();
+	
+	
 	
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
@@ -73,6 +78,14 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 		super.setValueAt(aValue, rowIndex, columnIndex);
 	}
 	
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+	    if( columnIndex == 2 || columnIndex == 3 )
+	    	return true;
+	    else
+	    	return false;
+	}
+	
 	
 
 	@Override
@@ -86,6 +99,7 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 			for(Reservation res: lib.getReservatonFor(customer, true)) {
 				
 				Gadget g = lib.getGadget(res.getGadgetId());
+				
 				
 				
 				values.add(new Object[]{
