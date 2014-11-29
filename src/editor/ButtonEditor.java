@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-public class ButtonEditor extends DefaultCellEditor {
+public abstract class ButtonEditor extends DefaultCellEditor {
 
     protected JButton button;
     private String label;
@@ -52,12 +52,13 @@ public class ButtonEditor extends DefaultCellEditor {
     public Object getCellEditorValue() {
     	 
         if (isPushed) {
-            //JOptionPane.showMessageDialog(button, label + ": Ouch!");
-            System.out.println(value);
+            clicked();
         }
         isPushed = false;
         return label;
     }
+    
+    public abstract void clicked();
 
     @Override
     public boolean stopCellEditing() {

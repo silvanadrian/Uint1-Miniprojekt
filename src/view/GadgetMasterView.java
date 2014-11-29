@@ -9,6 +9,8 @@ import java.awt.EventQueue;
 
 
 
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -51,12 +53,14 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.JLabel;
 
 import renderer.ButtonRenderer;
+import control.ToDoDeleteReservation;
 import control.ToDoEditGadget;
 import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
 import dl.LocalLibrary;
 import editor.ButtonEditor;
+import editor.DeleteButtonEditor;
 import bl.Customer;
 import bl.Gadget;
 import bl.Library;
@@ -343,9 +347,9 @@ public class GadgetMasterView {
 			//table_2.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer());
 			//table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
 			table_2.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-			table_2.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
+			table_2.getColumnModel().getColumn(3).setCellEditor(new DeleteButtonEditor(new JCheckBox(), new ToDoDeleteReservation(library)));
 			table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
-			table_2.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
+			//table_2.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
 			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
 			table_2.setRowSorter(reservationSorter);
 			rtm.update(library, null);
