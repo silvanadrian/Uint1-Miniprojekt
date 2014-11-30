@@ -80,10 +80,12 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 	
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-	    if( columnIndex == 2 || columnIndex == 3 )
-	    	return true;
-	    else
-	    	return false;
+		if(columnIndex == 3)
+			return true;
+		if(columnIndex == 2)
+			if( ((String)values.get(rowIndex)[2]).compareTo("Ja") == 0)
+				return true;
+		return false;
 	}
 	
 	

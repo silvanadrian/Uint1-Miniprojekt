@@ -25,8 +25,10 @@ public class ButtonRenderer extends JButton implements TableCellRenderer {
         }
         setText((value == null) ? "" : value.toString());
         
-        //if(getText().compareTo("Ja") == 0)
-        	//setEnabled(true);
+        if(getText().compareTo("Nein") == 0)
+        	setEnabled(false);
+        else
+        	setEnabled(true);
        
         
         return this;
