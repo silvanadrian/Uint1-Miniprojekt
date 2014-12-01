@@ -102,8 +102,6 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 				
 				Gadget g = lib.getGadget(res.getGadgetId());
 				
-				
-				
 				values.add(new Object[]{
 					g.getName(),
 					lib.getReservatonFor(g, true).size(),

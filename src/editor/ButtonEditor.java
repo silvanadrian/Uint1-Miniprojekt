@@ -57,7 +57,7 @@ public abstract class ButtonEditor extends DefaultCellEditor {
         isPushed = false;
         return label;
     }
-    
+
     public abstract void clicked();
 
     @Override

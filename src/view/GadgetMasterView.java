@@ -12,6 +12,7 @@ import java.awt.EventQueue;
 
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -56,6 +57,7 @@ import javax.swing.JLabel;
 import renderer.ButtonRenderer;
 import control.ToDoDeleteReservation;
 import control.ToDoEditGadget;
+import control.ToDoLoanReservation;
 import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
@@ -340,6 +342,12 @@ public class GadgetMasterView {
 		panel_4.add(scrollPane_2, gbc_scrollPane_2);
 		
 		table_2 = new JTable();
+		table_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rtm.update(library, null);
+			}
+		});
 		
 		{
 			//table_2.getColumn("Ausleihen").setCellRenderer(); 
@@ -349,9 +357,9 @@ public class GadgetMasterView {
 			//table_2.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer());
 			//table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
 			table_2.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-			table_2.getColumnModel().getColumn(3).setCellEditor(new DeleteButtonEditor(new JCheckBox(), new ToDoDeleteReservation(library)));
+			table_2.getColumnModel().getColumn(3).setCellEditor(new DeleteButtonEditor(new JCheckBox(), new ToDoDeleteReservation(library), rtm, table_2));
 			table_2.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
-			table_2.getColumnModel().getColumn(2).setCellEditor(new LoanButtonEditor(new JCheckBox()));
+			table_2.getColumnModel().getColumn(2).setCellEditor(new LoanButtonEditor(new JCheckBox(), new ToDoLoanReservation(library), rtm, table_2));
 			reservationSorter = new TableRowSorter<ReservationTableModel>(rtm);
 			table_2.setRowSorter(reservationSorter);
 			rtm.update(library, null);
