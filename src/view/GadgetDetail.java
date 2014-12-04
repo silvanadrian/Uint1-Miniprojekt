@@ -192,6 +192,7 @@ public class GadgetDetail extends JDialog {
 		btnAkzeptieren = new JButton("New button");
 		panelButtons.add(btnAkzeptieren);
 		
+		contentPane.getRootPane().setDefaultButton(btnAkzeptieren);
 		
 		
 		pack();

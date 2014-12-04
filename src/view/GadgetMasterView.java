@@ -13,6 +13,10 @@ import java.awt.EventQueue;
 
 
 
+
+
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -58,6 +62,7 @@ import renderer.ButtonRenderer;
 import control.ToDoDeleteReservation;
 import control.ToDoEditGadget;
 import control.ToDoLoanReservation;
+import control.ToDoReturnGadget;
 import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
@@ -65,6 +70,7 @@ import dl.LocalLibrary;
 import editor.ButtonEditor;
 import editor.DeleteButtonEditor;
 import editor.LoanButtonEditor;
+import editor.ReturnButtonEditor;
 import bl.Customer;
 import bl.Gadget;
 import bl.Library;
@@ -73,7 +79,9 @@ import bl.Reservation;
 import model.CustomerTableModel;
 import model.GadgetTableModel;
 import model.LoanTableModel;
+import model.LoanTextModel;
 import model.ReservationTableModel;
+import model.ReservationTextModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -102,6 +110,8 @@ public class GadgetMasterView {
 	private JTextField textField_1;
 	private Library library = new Library(new LocalLibrary());
 	
+	private JButton btnNewButton;
+	
 	private TableRowSorter<GadgetTableModel> gadgetSorter;
 	private TableRowSorter<CustomerTableModel> customerSorter;
 	private TableRowSorter<ReservationTableModel> reservationSorter;
@@ -109,6 +119,9 @@ public class GadgetMasterView {
 	
 	private ReservationTableModel rtm = new ReservationTableModel();
 	private LoanTableModel ltm = new LoanTableModel();
+	
+	private ReservationTextModel rtextm;
+	private LoanTextModel ltextm;
 
 	/**
 	 * Launch the application.
@@ -151,6 +164,7 @@ public class GadgetMasterView {
 		panel.add(tabbedPane);
 		
 		JPanel panel_1 = new JPanel();
+		
 		tabbedPane.addTab("Gadgets", null, panel_1, null);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0};
@@ -160,6 +174,7 @@ public class GadgetMasterView {
 		panel_1.setLayout(gbl_panel_1);
 		
 		JPanel panel_3 = new JPanel();
+		
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
 		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_3.fill = GridBagConstraints.BOTH;
@@ -185,10 +200,9 @@ public class GadgetMasterView {
 		Component horizontalStrut = Box.createHorizontalStrut(10);
 		panel_3.add(horizontalStrut);
 		
-		JButton btnNewButton = new JButton("Gadget erfassen");
+		btnNewButton = new JButton("Gadget erfassen");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Gadget new aufrufen
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -202,6 +216,7 @@ public class GadgetMasterView {
 			}
 		});
 		panel_3.add(btnNewButton);
+		panel_1.getRootPane().setDefaultButton(btnNewButton);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(10);
 		panel_3.add(horizontalStrut_1);
@@ -291,6 +306,8 @@ public class GadgetMasterView {
 				ltm.setCustomer(library.getCustomer((String)table_1.getValueAt(table_1.getSelectedRow(), 0)));
 				rtm.update(library, null);
 				ltm.update(library, null);
+				rtextm.update(library, null);
+				ltextm.update(library, null);
 			}
 		});
 		
@@ -330,8 +347,8 @@ public class GadgetMasterView {
 		panel_4.add(panel_5, gbc_panel_5);
 		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel = new JLabel("Reservation (x von y)");
-		panel_5.add(lblNewLabel);
+		JLabel reservationLabel = new JLabel("Reservation (x von y)");
+		panel_5.add(reservationLabel);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
@@ -420,8 +437,12 @@ public class GadgetMasterView {
 		panel_4.add(panel_10, gbc_panel_10);
 		panel_10.setLayout(new BoxLayout(panel_10, BoxLayout.X_AXIS));
 		
-		JLabel lblKeineReservationMglich = new JLabel("Keine Reservation m\u00F6glich: blabal");
-		panel_10.add(lblKeineReservationMglich);
+		JLabel reservationInfo = new JLabel("Reservation");
+		panel_10.add(reservationInfo);
+		
+		rtextm = new ReservationTextModel(reservationLabel, reservationInfo, rtm);
+		library.addObserver(rtextm);
+		//rtextm.update(library, null);
 		
 		JPanel panel_7 = new JPanel();
 		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
@@ -444,8 +465,8 @@ public class GadgetMasterView {
 		panel_4.add(panel_11, gbc_panel_11);
 		panel_11.setLayout(new BoxLayout(panel_11, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel_1 = new JLabel("Ausleihen (x von y)");
-		panel_11.add(lblNewLabel_1);
+		JLabel loanLabel = new JLabel("Ausleihen (x von y)");
+		panel_11.add(loanLabel);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
@@ -456,13 +477,20 @@ public class GadgetMasterView {
 		panel_4.add(scrollPane_3, gbc_scrollPane_3);
 		
 		table_3 = new JTable();
+		table_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rtm.update(library, null);
+			}
+		});
 		{
 			library.addObserver(ltm);
 			table_3.setModel(ltm);
 			table_3.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+			table_3.getColumnModel().getColumn(5).setCellEditor(new ReturnButtonEditor(new JCheckBox(), new ToDoReturnGadget(library), ltm, table_3, library));
 			loanSorter = new TableRowSorter<LoanTableModel>(ltm);
 			table_3.setRowSorter(loanSorter);
-			rtm.update(library, null);
+			ltm.update(library, null);
 		}
 		scrollPane_3.setViewportView(table_3);
 		
@@ -475,8 +503,10 @@ public class GadgetMasterView {
 		panel_4.add(panel_13, gbc_panel_13);
 		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
 		
-		JLabel lblNeueAusleihe = new JLabel("Neue Ausleihe");
-		panel_13.add(lblNeueAusleihe);
+		JLabel loanText = new JLabel("Neue Ausleihe");
+		panel_13.add(loanText);
+		
+		
 		
 		JPanel panel_14 = new JPanel();
 		GridBagConstraints gbc_panel_14 = new GridBagConstraints();
@@ -520,8 +550,11 @@ public class GadgetMasterView {
 		panel_4.add(panel_15, gbc_panel_15);
 		panel_15.setLayout(new BoxLayout(panel_15, BoxLayout.X_AXIS));
 		
-		JLabel lblKeineAusleiheMglich = new JLabel("Keine Ausleihe m\u00F6glich: Blabla");
+		JLabel lblKeineAusleiheMglich = new JLabel("Ausleihe");
 		panel_15.add(lblKeineAusleiheMglich);
+		
+		ltextm = new LoanTextModel(loanLabel, lblKeineAusleiheMglich, ltm);
+		library.addObserver(ltextm);
 		
 		frame.setMinimumSize(new Dimension(800, 400));
 		frame.setSize(new Dimension(1200, 500));

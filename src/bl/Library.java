@@ -183,5 +183,10 @@ public class Library extends Observable{
 		return getReservatonFor(gadget, customer, true) == null;
 	}	
 	
+	public void update() {
+		setChanged();
+		notifyObservers(this);
+	}
+	
 	
 }

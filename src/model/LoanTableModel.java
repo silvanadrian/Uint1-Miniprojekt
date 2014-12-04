@@ -75,8 +75,15 @@ public class LoanTableModel extends AbstractTableModel implements Observer {
 		super.setValueAt(aValue, rowIndex, columnIndex);
 	}
 	
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if(columnIndex == 5)
+			return true;
+		else
+			return false;
+		
+	}
 	
-
 	@Override
 	public void update(Observable o, Object arg) {
 		if(customer != null) {
@@ -88,7 +95,7 @@ public class LoanTableModel extends AbstractTableModel implements Observer {
 						lib.getGadget(loan.getGadgetId()).getName(),
 						loan.getPickupDate(),
 						loan.getReturnDate(),
-						null,
+						loan.isOverdue(),
 						lib.getReservatonFor((lib.getGadget(loan.getGadgetId())), true).size() > 0,
 						"Rückgabe"
 				});

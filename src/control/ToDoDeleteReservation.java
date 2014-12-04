@@ -14,5 +14,6 @@ public class ToDoDeleteReservation {
 
 	public void deleteReservation(String name, Customer customer) {
 		lib.getReservatonFor(lib.getGadgetByName(name), customer, true).setFinished(true);
+		lib.update();
 	}
 }
