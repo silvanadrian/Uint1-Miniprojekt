@@ -89,7 +89,6 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 	}
 	
 	
-
 	@Override
 	public void update(Observable o, Object arg) {
 		if(customer != null) {
@@ -104,7 +103,7 @@ public class ReservationTableModel extends AbstractTableModel implements Observe
 				
 				values.add(new Object[]{
 					g.getName(),
-					lib.getReservatonFor(g, true).size(),
+					lib.getReservatonFor(g, true).indexOf(lib.getReservatonFor(g, customer, true))+1,//lib.getReservatonFor(g, true).size(),
 					lib.getLoansFor(g, true).size() > 0 ? "Nein" : "Ja",
 					"Löschen"
 				});

@@ -18,6 +18,7 @@ import java.awt.EventQueue;
 
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -69,6 +70,7 @@ import control.ToDoSaveGadget;
 import dl.CrudListener;
 import dl.LibraryData;
 import dl.LocalLibrary;
+import dl.ProxyLibrary;
 import editor.ButtonEditor;
 import editor.DeleteButtonEditor;
 import editor.LoanButtonEditor;
@@ -111,6 +113,7 @@ public class GadgetMasterView {
 	private JTable table_3;
 	private JTextField textField_1;
 	private Library library = new Library(new LocalLibrary());
+	//private Library library = new Library(new ProxyLibrary());
 	
 	private JButton btnNewButton;
 	
@@ -124,7 +127,7 @@ public class GadgetMasterView {
 	
 	private ReservationTextModel rtextm;
 	private LoanTextModel ltextm;
-
+	
 	/**
 	 * Launch the application.
 	 
@@ -140,14 +143,14 @@ public class GadgetMasterView {
 			}
 		});
 	}
-
+	
 	
 	 * Create the application.
 	 */
 	public GadgetMasterView() {
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
