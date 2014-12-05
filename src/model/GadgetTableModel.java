@@ -38,9 +38,6 @@ public class GadgetTableModel extends AbstractTableModel implements Observer {
 	};
 	
 	ArrayList<Object[]> values = new ArrayList<>();
-
-	
-	
 	
 	@Override
 	public int getColumnCount() {

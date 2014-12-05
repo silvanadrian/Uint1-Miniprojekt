@@ -9,18 +9,27 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import java.awt.Window.Type;
 import java.awt.Dialog.ModalityType;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
 
 import bl.Gadget;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 
 //Muss am Ende noch abstract gemacht werden.
 public class GadgetDetail extends JDialog {
@@ -29,7 +38,7 @@ public class GadgetDetail extends JDialog {
 	
 	protected JTextField textFieldName;
 	protected JTextField textFieldHersteller;
-	protected JTextField textFieldPreis;
+	protected JFormattedTextField textFieldPreis;
 	protected JComboBox comboBoxZustand;
 	
 	protected JLabel lblIdText;
@@ -44,6 +53,7 @@ public class GadgetDetail extends JDialog {
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -148,7 +158,7 @@ public class GadgetDetail extends JDialog {
 		contentPane.add(panelTextPreis, gbc_panelTextPreis);
 		panelTextPreis.setLayout(new BoxLayout(panelTextPreis, BoxLayout.X_AXIS));
 		
-		textFieldPreis = new JTextField();
+		textFieldPreis = new JFormattedTextField(NumberFormat.getNumberInstance());
 		panelTextPreis.add(textFieldPreis);
 		textFieldPreis.setColumns(10);
 		
@@ -192,9 +202,10 @@ public class GadgetDetail extends JDialog {
 		btnAkzeptieren = new JButton("New button");
 		panelButtons.add(btnAkzeptieren);
 		
+		
+		
 		contentPane.getRootPane().setDefaultButton(btnAkzeptieren);
-		
-		
+				
 		pack();
 		setMinimumSize(getSize());
 		Dimension d = getSize();

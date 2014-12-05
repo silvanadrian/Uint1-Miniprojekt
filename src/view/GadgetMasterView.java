@@ -17,6 +17,7 @@ import java.awt.EventQueue;
 
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,6 +25,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -222,6 +224,7 @@ public class GadgetMasterView {
 		panel_3.add(horizontalStrut_1);
 		
 		JButton btnNewButton_1 = new JButton("Gadget editieren");
+		btnNewButton_1.setEnabled(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
@@ -247,6 +250,12 @@ public class GadgetMasterView {
 		panel_1.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnNewButton_1.setEnabled(true);
+			}
+		});
 		{
 			GadgetTableModel gtm = new GadgetTableModel();
 			library.addObserver(gtm);
@@ -420,7 +429,12 @@ public class GadgetMasterView {
 		JButton btnNewButton_2 = new JButton("Reservation");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				library.addReservation(library.getGadget(textField_2.getText()), rtm.getCustomer());
+				try {
+					library.addReservation(library.getGadget(textField_2.getText()), rtm.getCustomer());
+				}catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Ihre Eingabe ist nicht korrekt.");
+				}
+				
 			}
 		});
 		panel_9.add(btnNewButton_2);
@@ -533,8 +547,13 @@ public class GadgetMasterView {
 		JButton btnNewButton_3 = new JButton("Ausleihen");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				library.addLoan(library.getGadget(textField_1.getText()), rtm.getCustomer());
-				library.notifyObservers();
+				try {
+					library.addLoan(library.getGadget(textField_1.getText()), rtm.getCustomer());
+				}catch(Exception e) {
+					JOptionPane.showMessageDialog(null, "Ihre Eingabe ist nicht korrekt.");
+				}
+				
+				
 			}
 		});
 		panel_14.add(btnNewButton_3);

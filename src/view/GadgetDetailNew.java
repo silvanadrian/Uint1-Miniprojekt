@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+
 import control.ToDoSaveGadget;
 import bl.Gadget;
 import bl.Gadget.Condition;
@@ -26,12 +28,17 @@ public class GadgetDetailNew extends GadgetDetail {
 		btnAkzeptieren.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				g.setName(textFieldName.getText());
-				g.setManufacturer(textFieldHersteller.getText());
-				g.setPrice(Double.parseDouble(textFieldPreis.getText()));
-				g.setCondition((Condition)comboBoxZustand.getSelectedItem());
+				try {
+					g.setName(textFieldName.getText());
+					g.setManufacturer(textFieldHersteller.getText());
+					g.setPrice(Double.parseDouble(textFieldPreis.getText()));
+					g.setCondition((Condition)comboBoxZustand.getSelectedItem());
+					
+					tdsg.saveGadget(g);
+				} catch(Exception e) {
+					JOptionPane.showMessageDialog(null, "Eine oder mehrere Eingaben sind nicht korrekt.");
+				}
 				
-				tdsg.saveGadget(g);
 			}
 		});
 		
