@@ -19,7 +19,9 @@ public class ToDoReturnGadget {
 		for(Loan loan: lib.getLoansFor(customer, true)) {
 			if(loan.getGadgetId() == lib.getGadgetByName(name).getInventoryNumber()) {
 				try {
-					loan.returnCopy(new Date());
+					Date date = new Date();
+					date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+					loan.returnCopy(date);
 					lib.update();
 				} catch (IllegalLoanOperationException e) {
 					// TODO Auto-generated catch block
