@@ -49,7 +49,7 @@ public class ProxyLibrary  implements LibraryData {
 	public ProxyLibrary() {	 
 		try {
 			this.httpClient = new AsyncHttpClient();			
-			httpClient.prepareGet("ws://localhost:4731").execute(new WebSocketUpgradeHandler.Builder().addWebSocketListener(new WebSocketTextListener() {
+			httpClient.prepareGet("ws://178.62.247.205:4731").execute(new WebSocketUpgradeHandler.Builder().addWebSocketListener(new WebSocketTextListener() {
 				@Override
 				public void onMessage(String message) {
 					System.out.println("message");
