@@ -232,7 +232,7 @@ public class ProxyLibrary  implements LibraryData {
 	private <E> List<E> getData(String url, Type type) {
 		AsyncHttpClient c = new AsyncHttpClient();
 		try {			
-			BoundRequestBuilder x = c.prepareGet("http://localhost:4730/" + url);
+			BoundRequestBuilder x = c.prepareGet("http://178.62.247.205:4730/" + url);
 			Future<Response> f = x.execute();
 			Response r = f.get();
 			Gson gson = createGsonObject();
@@ -254,7 +254,7 @@ public class ProxyLibrary  implements LibraryData {
 	private <E> void updatedata(String url, String id, E toAdd) {
 		try {
 			AsyncHttpClient c = new AsyncHttpClient();
-			BoundRequestBuilder x = c.preparePost("http://localhost:4730/"+url + "/"+id);
+			BoundRequestBuilder x = c.preparePost("http://178.62.247.205:4730/"+url + "/"+id);
 
 			Gson gson = createGsonObject();
 			String toJson = gson.toJson(toAdd, toAdd.getClass());
@@ -273,7 +273,7 @@ public class ProxyLibrary  implements LibraryData {
 	private <E> void createData(String url, E toAdd) {
 		try {
 			AsyncHttpClient c = new AsyncHttpClient();
-			BoundRequestBuilder x = c.preparePost("http://localhost:4730/"+url);
+			BoundRequestBuilder x = c.preparePost("http://178.62.247.205:4730/"+url);
 
 			Gson gson = createGsonObject();
 			String toJson = gson.toJson(toAdd, toAdd.getClass());
