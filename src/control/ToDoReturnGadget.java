@@ -17,14 +17,17 @@ public class ToDoReturnGadget {
 	
 	public void returnGadget(Customer customer, String name) {
 		for(Loan loan: lib.getLoansFor(customer, true)) {
-			if(loan.getGadgetId() == lib.getGadgetByName(name).getInventoryNumber()) {
+			//System.out.println(loan.getGadgetId() + ", " + lib.getGadgetByName(name).getInventoryNumber());
+			
+			if(loan.getGadgetId().compareTo(lib.getGadgetByName(name).getInventoryNumber()) == 0 ) {
 				try {
-					Date date = new Date();
-					date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
-					loan.returnCopy(date);
+					//Date date = new Date();
+					//date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+					loan.returnCopy(new Date());
 					lib.update();
+					
 				} catch (IllegalLoanOperationException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}

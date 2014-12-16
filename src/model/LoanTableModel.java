@@ -91,7 +91,7 @@ public class LoanTableModel extends AbstractTableModel implements Observer {
 			values.clear();
 		
 			for(Loan loan:lib.getLoansFor(customer, true)) {
-				System.out.println(loan.getReturnDate());
+				//System.out.println(loan.getReturnDate());
 				values.add(new Object[]{
 						lib.getGadget(loan.getGadgetId()).getName(),
 						loan.getPickupDate(),
@@ -102,7 +102,6 @@ public class LoanTableModel extends AbstractTableModel implements Observer {
 				});
 			}
 		}
-		
 		
 		fireTableDataChanged();
 	

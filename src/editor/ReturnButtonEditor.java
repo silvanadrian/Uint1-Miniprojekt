@@ -28,5 +28,4 @@ public class ReturnButtonEditor extends ButtonEditor {
 	public void clicked() {
 		rg.returnGadget(ltm.getCustomer(), (String)ltm.getValueAt(table.getSelectedRow(), 0));
 	}
-
 }

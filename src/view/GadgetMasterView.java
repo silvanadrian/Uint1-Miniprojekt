@@ -112,8 +112,8 @@ public class GadgetMasterView {
 	private JTextField textField_2;
 	private JTable table_3;
 	private JTextField textField_1;
-	private Library library = new Library(new LocalLibrary());
-	//private Library library = new Library(new ProxyLibrary());
+	//private Library library = new Library(new LocalLibrary());
+	private Library library = new Library(new ProxyLibrary());
 	
 	private JButton btnNewButton;
 	
