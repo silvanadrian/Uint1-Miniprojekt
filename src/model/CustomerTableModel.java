@@ -8,6 +8,7 @@ import java.util.Observer;
 import javax.swing.JCheckBox;
 import javax.swing.table.AbstractTableModel;
 
+import dl.Message;
 import bl.Customer;
 import bl.Gadget.Condition;
 import bl.Library;
@@ -62,6 +63,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		Message message = (Message) arg1;
 		Library lib = (Library) arg0;
 		values.clear();
 		boolean hatUeberfaellige = false;
@@ -97,6 +99,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 					hatUeberfaellige
 			});
 		}
+		
 		fireTableDataChanged();
 		
 	}

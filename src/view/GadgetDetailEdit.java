@@ -41,7 +41,6 @@ public class GadgetDetailEdit extends GadgetDetail {
 				} catch(Exception arg0) {
 					JOptionPane.showMessageDialog(null, "Eine oder mehrere Eingaben sind nicht korrekt.");
 				}
-				
 			}
 		});
 		btnAbbruch.addActionListener(new ActionListener() {

@@ -459,7 +459,7 @@ public class GadgetMasterView {
 		
 		rtextm = new ReservationTextModel(reservationLabel, reservationInfo, rtm);
 		library.addObserver(rtextm);
-		//rtextm.update(library, null);
+		rtextm.update(library, null);
 		
 		JPanel panel_7 = new JPanel();
 		GridBagConstraints gbc_panel_7 = new GridBagConstraints();

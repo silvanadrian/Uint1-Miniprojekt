@@ -4,7 +4,10 @@ package bl;
 import java.util.List;
 import java.util.Observable;
 import java.util.stream.Collectors;
+
+import dl.CrudListener;
 import dl.LibraryData;
+import dl.MessageData;
 
 public class Library extends Observable{
 	
@@ -13,10 +16,46 @@ public class Library extends Observable{
 	
 	public Library(LibraryData data)
 	{
-		this.data = data;	
+		this.data = data;
 		
-	}
+		data.registerCustomerListener(new CrudListener<Customer>() {
+			@Override
+			public void changed(MessageData message) {
+				setChanged();
+				notifyObservers(message);
+				
+			}
+		});
+		
+		data.registerGadgetListener(new CrudListener<Gadget>() {
 
+			@Override
+			public void changed(MessageData message) {
+				System.out.println("test");
+				setChanged();
+				notifyObservers(message);
+			}
+		});
+		
+		data.registerLoanListener(new CrudListener<Loan>() {
+
+			@Override
+			public void changed(MessageData message) {
+				setChanged();
+				notifyObservers(message);
+			}
+		});
+		
+		data.registerReservationListener(new CrudListener<Reservation>() {
+			
+			@Override
+			public void changed(MessageData message) {
+				setChanged();
+				notifyObservers(message);
+			}
+		});
+	}
+	
 	
 	public boolean canLent(Gadget gadget, Customer customer)
 	{		
@@ -37,6 +76,7 @@ public class Library extends Observable{
 				data.updateReservation(reservation);
 			}			
 		}
+		
 		setChanged();
 		notifyObservers(this);
 	}
